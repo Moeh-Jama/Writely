@@ -1,9 +1,60 @@
-<!doctype html>
+<!doctype <!DOCTYPE html>
 <html>
-    <head>
-        <title><Writely></Writely></title>
-    </head>
-    <body>
-        <h1>Writely</h1>
-    </body>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Writely</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="main.js"></script>
+</head>
+<body>
+    <div class="container">
+            <h1>Welcome to Writely</h1>
+            {% if user.is_authenticated %}
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="{% url 'index' %}"><h1>Writely</h1></a>
+                    </div>
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="{% url 'submit_article' %}">Make a Post</a></li>
+                        <li><a href="{% url 'editProfile' %}">Edit Profile</a></li>
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
+                </div>
+            </nav>
+            {% else %}
+                <h5><a href="{% url 'register' %}">Click here to register please</a></h5>
+                <h5><a href="{% url 'login' %}">Or click here to login!</a></h5>
+            {% endif %}
+        <header>
+            <!--Where the nav & image header will be!-->
+        </header>
+        <div class="mainBody">
+            <div class="container">
+                <h1>Articles</h1>
+                {% for article in Articles %}
+                   
+                   {% for k, post in article.items %}
+                   <a href="{% url 'readArticle' %}?article_id={{k}}">
+                        
+                        <div class="d-inline-block">
+                            <img src="{{post.Header_image}}" alt="article image" width=300, height=250>
+                            <h3>{{post.Title}}</h3>
+                            <p>{{post.Text}}</p>
+                            <p>{{post.Author}}</p>
+                        </div>
+                    
+                    </a>
+                   {% endfor %}               
+                {% endfor %}
+            </div>
+        </div>
+        <footer>
+            
+        </footer>
+    </div>
+</body>
 </html>

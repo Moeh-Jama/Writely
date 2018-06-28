@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{Article.Title}} | Writely</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="main.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Display a specific article-->
+        <div id="article body">
+            <img src="{{Article.Header_image}}" alt="Header Image" width=1200>
+            <h1>{{Article.Title}}</h1>
+            <h3>Author: {{Article.Author}}</h3>
+            <p>{{Article.Text}}</p>
+        </div>
+        <div id="commentSection">
+            <!-- Show comments here.-->
+            <div id="comments">
+                <h4>Comments</h4>
+                {% for k,v in Comments.items %}
+                    <p title="posted on {{v.Date}}"><strong>{{v.User}}</strong> : {{v.Comment}}</p>
+                {% endfor %}
+            </div>
+            {% if user.is_authenticated %}
+            <!-- send article id in aswell-->
+            <form method='POST' action="{% url 'index' %}?author={{Article.Author_id}}?article_id={{Article.id}}">
+                {% csrf_token %}
+                <label>Send Comment</label>
+                <textarea class="form-control" name="submitComment" rows="3"></textarea><br>
+                <input type="submit" name="sendComment" value="Send Comment">
+            </form>
+            {% else %}
+            <h5>Please sign up or register to comment</h5>
+            <h5><a href="{% url 'register' %}">Register</a></h5>
+            <h5><a href="{% url 'login' %}">Login</a></h5>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
